@@ -6,6 +6,8 @@
 		<link href = "css/CustomCss.css" rel = "stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.min.js"></script>
+	<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src = "js/bootstrap.js"></script>
 	<script src="jsAngular/app.js" type="text/javascript"></script>
 	<script src="jsAngular/maincontroller.js" type="text/javascript"></script>
 	<script src="jsAngular/Service.js" type="text/javascript"></script>
@@ -68,7 +70,59 @@
 <div 
     ng-switch on="selectedMedia">
       <div ng-switch-when="software">
-      <div class="row" >
+      <div class="row" ng-include ="'software.html'">
+
+</div><!-- row -->
+      </div><!-- software div -->
+      <div ng-switch-when="movie" >
+      <div class="row" ng-include ="'movies.html'">
+	
+</div><!-- row -->
+      </div><!-- movie div -->
+
+
+       <div ng-switch-when="tvshow">
+      <div class="row" ng-include ="'tvShows.html'">
+	
+</div><!-- row -->
+      </div><!-- tvShow div -->
+
+       <div ng-switch-when="ebook">
+      <div class="row" ng-include src="'ebook.html'">
+	
+</div><!-- row -->
+      </div><!-- ebook div -->
+
+      <div ng-switch-default>default</div>
+  </div>
+
+</div><!-- container block -->
+
+<div ng-show="AppNameToSearch==NULL" style="margin-top:15%">
+<p class="text-center" style="color:#CCA37A">
+This website allows you to search for content within the iTunes Store, App Store, iBooks Store and Mac App Store. You can 
+search for a variety of content; including apps, iBooks, movies, and TV shows.You can filter the results based on Genres 
+and Free and Paid options in two dropdowns.Also,You can filter the results with particular keyword.</p>
+
+<p class="text-center" style="color:#CCA37A">This website is developed in AngularJS, Bootstrap,CSS3,HTML5. Live appstore API has been consumed in this application to 
+fetch the search results.</p>
+
+</div>
+
+<div ng-show="(output.results| FreePaidFilter:selectedPrice |GenreFilter:selectedGenre:selectedMedia|filter:filterText).length==0 " style="margin-top:20%"><h3 class="text-center" style="color:red"><i>Your search criteria doesnot match any result</i></h3></div>
+
+</div><!-- content -->
+
+<div class = "navbar navbar-default navbar-fixed-bottom">
+
+			<div class = "container">
+				<p class = "navbar-text pull-left">By <b>Shalini Ajay</b> &copy;2014 All rights reserved.</p>
+				<!-- <p class = "navbar-text pull-left"><p>copy;Shalini Ajay,All rights reserved</p> -->
+				<a href="http://au.linkedin.com/in/shaliniajay/" target="_blank"><img src="Img/LinkedIn1.jpg" class = "img img-responsive pull-right linkedinIMG "></a>
+			</div>
+
+		</div>
+<script type="text/ng-template" id="software.html">
 	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 	<div class="row"><img src="{{val.artworkUrl512}}" class="img-responsive imagediv" /></div>
 	<div class="row" style="margin-left:25px;margin-bottom:10px"><button class="btn btn-default">{{val.formattedPrice}}</button></div>
@@ -93,10 +147,9 @@
 	<div class="row"><a class="btn btn-primary" href="{{val.trackViewUrl}}" target="_blank">Go to official site<span class="glyphicon glyphicon-chevron-right"></span></a></div>
 	</div>
 	</div>
-</div><!-- row -->
-      </div><!-- software div -->
-      <div ng-switch-when="movie" >
-      <div class="row" >
+</script>
+
+<script type="text/ng-template" id="movies.html">
 	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 	<div class="row"><img src="{{val.artworkUrl100}}" class="img-responsive imagediv"/></div>
 	<div class="row" style="margin-left:25px;margin-bottom:10px"><button class="btn btn-default">{{val.collectionPrice|currency}}</button></div>
@@ -121,40 +174,9 @@
 	<div class="row"><a href="{{val.trackViewUrl}}" class="btn btn-primary" target="_blank">Go to official site<span class="glyphicon glyphicon-chevron-right"></span></a></div>
 	</div>
 	</div>
-</div><!-- row -->
-      </div><!-- movie div -->
+</script>
 
-
-       <div ng-switch-when="tvShow">
-      <div class="row">
-	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-	<div class="row"><img src="{{val.artworkUrl100}}" class="img-responsive imagediv"/></div>
-	<div class="row" style="margin-left:25px;margin-bottom:10px"><button class="btn btn-default">{{val.collectionPrice|currency}}</button></div>
-	</div>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-	<div style="margin-left:50px;margin-right:25px;margin-bottom:10px">
-	<div class="row"><h3>{{val.trackCensoredName}}</h3></div>
-	<div class="row"><h6>{{val.longDescription}}</h6></div>
-	<div class="row"><h6>{{val.collectionName}}<span class="glyphicon glyphicon-chevron-right"></span></h6></div>
-	<div class="row">
-	 <a href="" ng-model="collapsed" ng-click="collapsed=!collapsed">More Info
-	 <span ng-show="!collapsed" class="glyphicon glyphicon-chevron-right"></span>
-	 <span ng-show="collapsed" class="glyphicon glyphicon-chevron-down"></span>
-	 </a>
-
-    <div ng-show="collapsed">
-    <p><b>Time:</b>{{val.trackTimeMillis/60000| number:0}} min</p>
-    <p><b>Content Advice : </b>{{val.contentAdvisoryRating}}</p>
-    </div>
-    </div>
-	<div class="row"><a href="{{val.trackViewUrl}}" target="_blank" class="btn btn-primary">Go to official site<span class="glyphicon glyphicon-chevron-right"></span></a></div>
-	</div>
-	</div>
-</div><!-- row -->
-      </div><!-- tvShow div -->
-
-       <div ng-switch-when="ebook">
-      <div class="row">
+<script type="text/ng-template" id="ebook.html">
 	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 	<div class="row"><img src="{{val.artworkUrl100}}" class="img-responsive imagediv"/></div>
 	<div class="row" style="margin-left:25px;margin-bottom:10px"><button class="btn btn-default">{{val.currency}} {{val.price}}</button></div>
@@ -178,39 +200,34 @@
 	<div class="row"><a href="{{val.trackViewUrl}}" target="_blank" class="btn btn-primary">Go to official site<span class="glyphicon glyphicon-chevron-right"></span></a></div>
 	</div>
 	</div>
-</div><!-- row -->
-      </div><!-- ebook div -->
+</script>
 
-      <div ng-switch-default>default</div>
-  </div>
+<script type="text/ng-template" id="tvshows.html">
+	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+	<div class="row"><img src="{{val.artworkUrl100}}" class="img-responsive imagediv"/></div>
+	<div class="row" style="margin-left:25px;margin-bottom:10px"><button class="btn btn-default">{{val.collectionPrice|currency}}</button></div>
+	</div>
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+	<div style="margin-left:50px;margin-right:25px;margin-bottom:10px">
+	<div class="row"><h3>{{val.trackCensoredName}}</h3></div>
+	<div class="row"><h6>{{val.longDescription}}</h6></div>
+	<div class="row"><h6>{{val.collectionName}}<span class="glyphicon glyphicon-chevron-right"></span></h6></div>
+	<div class="row">
+	 <a href="" ng-model="collapsed" ng-click="collapsed=!collapsed">More Info
+	 <span ng-show="!collapsed" class="glyphicon glyphicon-chevron-right"></span>
+	 <span ng-show="collapsed" class="glyphicon glyphicon-chevron-down"></span>
+	 </a>
 
-</div><!-- container block -->
+    <div ng-show="collapsed">
+    <p><b>Time:</b>{{val.trackTimeMillis/60000| number:0}} min</p>
+    <p><b>Content Advice : </b>{{val.contentAdvisoryRating}}</p>
+    </div>
+    </div>
+	<div class="row"><a href="{{val.trackViewUrl}}" target="_blank" class="btn btn-primary">Go to official site<span class="glyphicon glyphicon-chevron-right"></span></a></div>
+	</div>
+	</div>
+</script>
 
-<div ng-show="AppNameToSearch==NULL" style="margin-top:15%">
-<p class="text-center" style="color:#CCA37A">
-This website allows you to search for content within the iTunes Store, App Store, iBooks Store and Mac App Store. You can 
-search for a variety of content; including apps, iBooks, movies, and TV shows.You can filter the results based on Genres 
-and Free and Paid options in two dropdowns.Also,You can filter the results with particular keyword.</p>
 
-<p class="text-center" style="color:#CCA37A">This website is developed in AngularJS, Bootstrap,CSS3,HTML5. Live appstore API has been consumed in this application to 
-fetch the search results.</p>
-
-</div>
-<!--<div ng-if="AppNameToSearch!=""">-->
-<div ng-show="(output.results| FreePaidFilter:selectedPrice |GenreFilter:selectedGenre:selectedMedia|filter:filterText).length==0 " style="margin-top:20%"><h3 class="text-center" style="color:red"><i>Your search criteria doesnot match any result</i></h3></div>
-<!--</div>-->
-</div><!-- content -->
-
-<div class = "navbar navbar-default navbar-fixed-bottom">
-
-			<div class = "container">
-				<p class = "navbar-text pull-left">By <b>Shalini Ajay</b> &copy;2014 All rights reserved.</p>
-				<!-- <p class = "navbar-text pull-left"><p>copy;Shalini Ajay,All rights reserved</p> -->
-				<a href="http://au.linkedin.com/in/shaliniajay/" target="_blank"><img src="Img/LinkedIn1.jpg" class = "img img-responsive pull-right linkedinIMG "></a>
-			</div>
-
-		</div>
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.min.js"></script>
 </body>
 </html>
