@@ -53,7 +53,7 @@ app.factory('CallApi',function($http){
                 success(function(data) {
               
                     console.log("1");
-                    console.log(data);
+                
                     
                 }).
 
