@@ -1,8 +1,8 @@
 body{
 		/*background-color:#CCA3A3;*/
 		
-		background: url("../Img/background1.jpg") ;
-		background-repeat:repeat-y;
+		background: url("../Img/bg.jpg") ;
+		background-repeat:repeat;
 	}
 	.block{
 		
